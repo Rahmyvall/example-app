@@ -90,299 +90,303 @@
 
                     <span class="hbadge">
                         <span class="bdot"></span>
-                        AI-Driven Financial Intelligence Platform
+                        Platform Intelijen Keuangan Berbasis AI
                     </span>
 
                     <h1 class="h1 mt-3">
-                        Make Smarter Financial Decisions<br>
-                        Powered by <span class="gt">AI Intelligence</span>
+                        Ambil Keputusan Keuangan Lebih Cerdas<br>
+                        dengan <span class="gt">Kecerdasan AI</span>
                     </h1>
 
                     <p style="
-            max-width:620px;
-            margin:20px auto 35px;
-            font-size:clamp(.95rem,1.8vw,1.2rem);
-            color:var(--tx2);
-            line-height:1.6;
-        ">
-                        Automate budgeting, monitor cash flow in real-time, detect anomalies, and generate
-                        intelligent financial reports—all from a single AI-powered dashboard.
+        max-width:620px;
+        margin:20px auto 35px;
+        font-size:clamp(.95rem,1.8vw,1.2rem);
+        color:var(--tx2);
+        line-height:1.6;
+    ">
+                        Otomatiskan pengelolaan anggaran, pantau arus kas secara real-time,
+                        deteksi anomali transaksi, dan hasilkan laporan keuangan yang lebih akurat
+                        melalui satu dashboard cerdas berbasis AI.
                     </p>
+
                     <!-- TRUST INDICATORS -->
                     <div class="mt-4 text-muted" style="font-size:.9rem;">
-                        Trusted by startups & finance teams worldwide • Secure • Real-time • AI-powered
+                        Dipercaya oleh perusahaan, UMKM, dan tim keuangan • Aman • Real-time • Didukung AI
                     </div>
 
                 </div>
 
-            </div>
+                <!-- DASHBOARD IMAGE REPLACEMENT -->
+                <div class="row justify-content-center mt-5">
 
-            <!-- DASHBOARD IMAGE REPLACEMENT -->
-            <div class="row justify-content-center mt-5">
+                    <div class="col-lg-10 text-center">
 
-                <div class="col-lg-10 text-center">
-
-                    <img src="{{asset('frontend/img/logo.png')}}" alt="AI Finance Dashboard" class="img-fluid" style="
+                        <img src="{{asset('frontend/img/logo.png')}}" alt="AI Finance Dashboard" class="img-fluid"
+                            style="
                         border-radius:18px;
                         box-shadow:0 25px 70px rgba(0,0,0,.35);
                         transform:translateY(10px);
                     ">
 
-                </div>
-
-            </div>
-
-    </div>
-
-    </section>
-    <!-- PROBLEM -->
-    <section class="sp position-relative py-5 bg-soft">
-        <div class="container position-relative">
-
-            <!-- HEADER -->
-            <div class="text-center mb-5 rv">
-                <span class="badge-modern">
-                    Categories
-                </span>
-
-                <h2 class="stitle mt-3 fw-bold">
-                    Manage your <span class="text-primary">data</span>
-                </h2>
-
-                <p class="ssub mx-auto text-muted" style="max-width:520px">
-                    Click a category card to instantly view its stored data.
-                </p>
-            </div>
-
-            <!-- GRID -->
-            <div class="row g-4">
-
-                @foreach($categories as $cat)
-                <div class="col-12 col-md-6 col-lg-4 rv">
-
-                    <div class="category-card modern-card h-100 p-4 rounded-4" data-bs-toggle="modal"
-                        data-bs-target="#categoryModal" data-id="{{ $cat->id }}" data-name="{{ $cat->name }}">
-
-                        <!-- ICON -->
-                        <div class="icon-wrap mb-3">
-                            <i class="fa-solid fa-layer-group"></i>
-                        </div>
-
-                        <!-- TITLE -->
-                        <h3 class="card-title">
-                            {{ $cat->name }}
-                        </h3>
-
-                        <!-- DESC -->
-                        <p class="card-desc">
-                            Klik untuk melihat detail data <strong>{{ $cat->name }}</strong>
-                        </p>
-
                     </div>
 
                 </div>
-                @endforeach
 
             </div>
 
-        </div>
-    </section>
-    <!-- ================= MODAL ================= -->
-    <div class="modal fade" id="categoryModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-
-            <div class="modal-content modal-modern">
+        </section>
+        <!-- PROBLEM -->
+        <section class="sp position-relative py-5 bg-soft">
+            <div class="container position-relative">
 
                 <!-- HEADER -->
-                <div class="modal-header border-0 pb-0">
-                    <div>
-                        <h5 class="fw-bold mb-0" id="modalTitle">Category</h5>
-                        <small class="text-muted">Detail data category</small>
-                    </div>
+                <div class="text-center mb-5 rv">
+                    <span class="badge-modern">
+                        Categories
+                    </span>
 
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h2 class="stitle mt-3 fw-bold">
+                        Manage your <span class="text-primary">data</span>
+                    </h2>
+
+                    <p class="ssub mx-auto text-muted" style="max-width:520px">
+                        Click a category card to instantly view its stored data.
+                    </p>
                 </div>
 
-                <!-- BODY -->
-                <div class="modal-body pt-3">
+                <!-- GRID -->
+                <div class="row g-4">
 
-                    <div class="table-responsive">
-                        <table class="table table-modern align-middle mb-0">
+                    @foreach($categories as $cat)
+                    <div class="col-12 col-md-6 col-lg-4 rv">
 
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Created</th>
-                                </tr>
-                            </thead>
+                        <div class="category-card modern-card h-100 p-4 rounded-4" data-bs-toggle="modal"
+                            data-bs-target="#categoryModal" data-id="{{ $cat->id }}" data-name="{{ $cat->name }}">
 
-                            <tbody id="categoryTableBody">
-                                <tr>
-                                    <td colspan="3" class="text-center text-muted py-4">
-                                        Klik category untuk menampilkan data
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <!-- ICON -->
+                            <div class="icon-wrap mb-3">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
 
-                        </table>
-                    </div>
+                            <!-- TITLE -->
+                            <h3 class="card-title">
+                                {{ $cat->name }}
+                            </h3>
 
-                </div>
+                            <!-- DESC -->
+                            <p class="card-desc">
+                                Klik untuk melihat detail data <strong>{{ $cat->name }}</strong>
+                            </p>
 
-            </div>
-
-        </div>
-    </div>
-    <!-- FEATURES -->
-    <section id="features" class="sp" style="background:var(--bg2)">
-        <div class="container">
-
-            <!-- HEADER -->
-            <div class="text-center mb-5 rv">
-                <span class="slbl">Categories</span>
-                <h2 class="stitle">
-                    Chart of <span class="gt">Accounts Features</span>
-                </h2>
-                <p class="ssub mx-auto">
-                    Manage your financial accounts with structured categories and clean organization.
-                </p>
-            </div>
-
-            <!-- GRID FEATURES -->
-            <div class="row g-3">
-                @forelse($accounts as $account)
-                <div class="col-md-4 rv">
-
-                    <div class="gc p-4 h-100 coa-card" style="cursor:pointer;" onclick="loadChart({{ $account->id }})">
-
-                        <div class="ftico">
-                            <i class="fa-solid fa-file-invoice"></i>
                         </div>
 
-                        <h3 class="fs-5 fw-semibold mb-2">
-                            {{ $account->name }}
-                        </h3>
-
-                        <p style="font-size:.875rem;color:var(--tx2)">
-                            Code: {{ $account->code }} <br>
-                            Category: {{ $account->category->name ?? '-' }}
-                        </p>
-
-                        <span class="ftag">
-                            COA • {{ strtoupper($account->category->name ?? 'GENERAL') }}
-                        </span>
-
                     </div>
-                </div>
-                @empty
-                <div class="col-12 text-center">
-                    <p class="text-muted">No accounts found.</p>
-                </div>
-                @endforelse
-            </div>
-        </div>
-    </section>
-    <div class="modal fade" id="coaModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content p-4">
+                    @endforeach
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 id="coaTitle" class="mb-0">Chart</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <div style="height:300px;">
-                    <canvas id="coaChart"></canvas>
                 </div>
 
             </div>
-        </div>
-    </div>
-    <!-- HOW IT WORKS -->
-    <section id="how" class="sp" style="background:var(--bg3); padding:70px 0;">
-        <div class="container">
+        </section>
+        <!-- ================= MODAL ================= -->
+        <div class="modal fade" id="categoryModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
 
-            <!-- HEADER -->
-            <div class="text-center mb-5 rv">
-                <span class="slbl">Accounting System</span>
-                <h2 class="stitle">COA <span class="gt">Interactive Ledger</span></h2>
-                <p style="color:var(--tx2); font-size:.95rem;">
-                    Klik COA untuk filter transaksi secara real-time
-                </p>
-            </div>
+                <div class="modal-content modal-modern">
 
-            <div class="row g-4">
-
-                <!-- TABLE -->
-                <div class="col-12 rv">
-
-                    <div class="p-4 bg-white rounded-4 shadow-sm">
-
-                        <!-- HEADER -->
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="fw-semibold mb-0">Transactions Ledger</h5>
-                            <span class="badge bg-dark px-3 py-2">LIVE DATA</span>
+                    <!-- HEADER -->
+                    <div class="modal-header border-0 pb-0">
+                        <div>
+                            <h5 class="fw-bold mb-0" id="modalTitle">Category</h5>
+                            <small class="text-muted">Detail data category</small>
                         </div>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- BODY -->
+                    <div class="modal-body pt-3">
 
                         <div class="table-responsive">
+                            <table class="table table-modern align-middle mb-0">
 
-                            <table class="table align-middle table-hover">
-
-                                <thead style="background:#f8f9fa;">
+                                <thead>
                                     <tr>
-                                        <th style="font-size:13px;">Date</th>
-                                        <th style="font-size:13px;">Account</th>
-                                        <th style="font-size:13px;">Description</th>
-                                        <th class="text-end" style="font-size:13px;">Debit</th>
-                                        <th class="text-end" style="font-size:13px;">Credit</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Created</th>
                                     </tr>
                                 </thead>
 
-                                <tbody id="trxTable">
-
-                                    @forelse($transactions as $trx)
+                                <tbody id="categoryTableBody">
                                     <tr>
-
-                                        <td style="font-weight:500;">
-                                            {{ $trx->transaction_date }}
-                                        </td>
-
-                                        <td>
-                                            <div style="font-weight:600;">
-                                                {{ $trx->coa->code ?? '-' }}
-                                            </div>
-                                            <small style="color:#777;">
-                                                {{ $trx->coa->name ?? '-' }}
-                                            </small>
-                                        </td>
-
-                                        <td style="color:#555;">
-                                            {{ $trx->description ?? '-' }}
-                                        </td>
-
-                                        <td class="text-end text-success fw-semibold">
-                                            {{ number_format($trx->debit, 2) }}
-                                        </td>
-
-                                        <td class="text-end text-danger fw-semibold">
-                                            {{ number_format($trx->credit, 2) }}
-                                        </td>
-
-                                    </tr>
-                                    @empty
-
-                                    <tr>
-                                        <td colspan="5" class="text-center py-4 text-muted">
-                                            No transactions available
+                                        <td colspan="3" class="text-center text-muted py-4">
+                                            Klik category untuk menampilkan data
                                         </td>
                                     </tr>
-
-                                    @endforelse
-
                                 </tbody>
 
                             </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- FEATURES -->
+        <section id="features" class="sp" style="background:var(--bg2)">
+            <div class="container">
+
+                <!-- HEADER -->
+                <div class="text-center mb-5 rv">
+                    <span class="slbl">Categories</span>
+                    <h2 class="stitle">
+                        Chart of <span class="gt">Accounts Features</span>
+                    </h2>
+                    <p class="ssub mx-auto">
+                        Manage your financial accounts with structured categories and clean organization.
+                    </p>
+                </div>
+
+                <!-- GRID FEATURES -->
+                <div class="row g-3">
+                    @forelse($accounts as $account)
+                    <div class="col-md-4 rv">
+
+                        <div class="gc p-4 h-100 coa-card" style="cursor:pointer;"
+                            onclick="loadChart({{ $account->id }})">
+
+                            <div class="ftico">
+                                <i class="fa-solid fa-file-invoice"></i>
+                            </div>
+
+                            <h3 class="fs-5 fw-semibold mb-2">
+                                {{ $account->name }}
+                            </h3>
+
+                            <p style="font-size:.875rem;color:var(--tx2)">
+                                Code: {{ $account->code }} <br>
+                                Category: {{ $account->category->name ?? '-' }}
+                            </p>
+
+                            <span class="ftag">
+                                COA • {{ strtoupper($account->category->name ?? 'GENERAL') }}
+                            </span>
+
+                        </div>
+                    </div>
+                    @empty
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No accounts found.</p>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+        <div class="modal fade" id="coaModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 id="coaTitle" class="mb-0">Chart</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div style="height:300px;">
+                        <canvas id="coaChart"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- HOW IT WORKS -->
+        <section id="how" class="sp" style="background:var(--bg3); padding:70px 0;">
+            <div class="container">
+
+                <!-- HEADER -->
+                <div class="text-center mb-5 rv">
+                    <span class="slbl">Accounting System</span>
+                    <h2 class="stitle">COA <span class="gt">Interactive Ledger</span></h2>
+                    <p style="color:var(--tx2); font-size:.95rem;">
+                        Klik COA untuk filter transaksi secara real-time
+                    </p>
+                </div>
+
+                <div class="row g-4">
+
+                    <!-- TABLE -->
+                    <div class="col-12 rv">
+
+                        <div class="p-4 bg-white rounded-4 shadow-sm">
+
+                            <!-- HEADER -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-semibold mb-0">Transactions Ledger</h5>
+                                <span class="badge bg-dark px-3 py-2">LIVE DATA</span>
+                            </div>
+
+                            <div class="table-responsive">
+
+                                <table class="table align-middle table-hover">
+
+                                    <thead style="background:#f8f9fa;">
+                                        <tr>
+                                            <th style="font-size:13px;">Date</th>
+                                            <th style="font-size:13px;">Account</th>
+                                            <th style="font-size:13px;">Description</th>
+                                            <th class="text-end" style="font-size:13px;">Debit</th>
+                                            <th class="text-end" style="font-size:13px;">Credit</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="trxTable">
+
+                                        @forelse($transactions as $trx)
+                                        <tr>
+
+                                            <td style="font-weight:500;">
+                                                {{ $trx->transaction_date }}
+                                            </td>
+
+                                            <td>
+                                                <div style="font-weight:600;">
+                                                    {{ $trx->coa->code ?? '-' }}
+                                                </div>
+                                                <small style="color:#777;">
+                                                    {{ $trx->coa->name ?? '-' }}
+                                                </small>
+                                            </td>
+
+                                            <td style="color:#555;">
+                                                {{ $trx->description ?? '-' }}
+                                            </td>
+
+                                            <td class="text-end text-success fw-semibold">
+                                                {{ number_format($trx->debit, 2) }}
+                                            </td>
+
+                                            <td class="text-end text-danger fw-semibold">
+                                                {{ number_format($trx->credit, 2) }}
+                                            </td>
+
+                                        </tr>
+                                        @empty
+
+                                        <tr>
+                                            <td colspan="5" class="text-center py-4 text-muted">
+                                                No transactions available
+                                            </td>
+                                        </tr>
+
+                                        @endforelse
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
 
                         </div>
 
@@ -391,125 +395,125 @@
                 </div>
 
             </div>
+        </section>
+        <footer id="foot" style="padding:80px 0 30px;border-top:1px solid var(--bd);">
+            <div class="container">
 
-        </div>
-    </section>
-    <footer id="foot" style="padding:80px 0 30px;border-top:1px solid var(--bd);">
-        <div class="container">
+                <!-- TOP -->
+                <div class="row g-5 mb-5">
 
-            <!-- TOP -->
-            <div class="row g-5 mb-5">
+                    <!-- BRAND -->
+                    <div class="col-lg-4">
+                        <a href="#"
+                            style="display:flex;align-items:center;gap:10px;margin-bottom:15px;font-size:1.2rem;font-weight:700;color:var(--tx);text-decoration:none;">
+                            <div
+                                style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid var(--bd);">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            NexusAI
+                        </a>
 
-                <!-- BRAND -->
-                <div class="col-lg-4">
-                    <a href="#"
-                        style="display:flex;align-items:center;gap:10px;margin-bottom:15px;font-size:1.2rem;font-weight:700;color:var(--tx);text-decoration:none;">
-                        <div
-                            style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid var(--bd);">
-                            <i class="fa-solid fa-layer-group"></i>
+                        <p style="font-size:.9rem;color:var(--tx3);line-height:1.7;max-width:320px;margin:0;">
+                            The most powerful AI automation platform for modern teams.
+                        </p>
+
+                        <!-- SUBSCRIBE -->
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:15px;">
+                            <input type="email" placeholder="your@email.com"
+                                style="flex:1;min-width:180px;padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:transparent;color:var(--tx);outline:none;">
+                            <button
+                                style="padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;color:#fff;background:linear-gradient(135deg,#6d5efc,#4fd1c5);">
+                                Subscribe
+                            </button>
                         </div>
-                        NexusAI
-                    </a>
+                    </div>
 
-                    <p style="font-size:.9rem;color:var(--tx3);line-height:1.7;max-width:320px;margin:0;">
-                        The most powerful AI automation platform for modern teams.
+                    <!-- LINKS -->
+                    <div class="col-6 col-md-2">
+                        <h5 style="font-size:.95rem;margin-bottom:12px;color:var(--tx);">Product</h5>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Features</a>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Integrations</a>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Pricing</a>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Changelog</a>
+                        <a href="#"
+                            style="display:block;font-size:.85rem;color:var(--tx3);text-decoration:none;">Status</a>
+                    </div>
+
+                    <div class="col-6 col-md-2">
+                        <h5 style="font-size:.95rem;margin-bottom:12px;color:var(--tx);">Resources</h5>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Documentation</a>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">API
+                            Reference</a>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Blog</a>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Case
+                            Studies</a>
+                        <a href="#"
+                            style="display:block;font-size:.85rem;color:var(--tx3);text-decoration:none;">Community</a>
+                    </div>
+
+                    <div class="col-6 col-md-2">
+                        <h5 style="font-size:.95rem;margin-bottom:12px;color:var(--tx);">Company</h5>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">About</a>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Careers</a>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Press</a>
+                        <a href="#"
+                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Privacy</a>
+                        <a href="#"
+                            style="display:block;font-size:.85rem;color:var(--tx3);text-decoration:none;">Terms</a>
+                    </div>
+
+                </div>
+
+                <!-- BOTTOM -->
+                <div
+                    style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:15px;padding-top:20px;border-top:1px solid var(--bd);">
+
+                    <p style="font-size:.8rem;color:var(--tx3);margin:0;line-height:1.5;">
+                        © 2025 NexusAI, Inc. All rights reserved.
+                        <br>
+                        Design by
+                        <a href="https://bestwpware.com/" target="_blank"
+                            style="color:#6d5efc;font-weight:600;text-decoration:none;">Bestwpware</a>
+                        & distributed by
+                        <a href="https://themewagon.com" target="_blank"
+                            style="color:#6d5efc;font-weight:600;text-decoration:none;">ThemeWagon</a>
                     </p>
 
-                    <!-- SUBSCRIBE -->
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:15px;">
-                        <input type="email" placeholder="your@email.com"
-                            style="flex:1;min-width:180px;padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:transparent;color:var(--tx);outline:none;">
-                        <button
-                            style="padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;color:#fff;background:linear-gradient(135deg,#6d5efc,#4fd1c5);">
-                            Subscribe
-                        </button>
+                    <!-- SOCIAL -->
+                    <div style="display:flex;gap:10px;">
+                        <a href="#"
+                            style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a href="#"
+                            style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                        <a href="#"
+                            style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="#"
+                            style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
                     </div>
-                </div>
 
-                <!-- LINKS -->
-                <div class="col-6 col-md-2">
-                    <h5 style="font-size:.95rem;margin-bottom:12px;color:var(--tx);">Product</h5>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Features</a>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Integrations</a>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Pricing</a>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Changelog</a>
-                    <a href="#" style="display:block;font-size:.85rem;color:var(--tx3);text-decoration:none;">Status</a>
-                </div>
-
-                <div class="col-6 col-md-2">
-                    <h5 style="font-size:.95rem;margin-bottom:12px;color:var(--tx);">Resources</h5>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Documentation</a>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">API
-                        Reference</a>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Blog</a>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Case
-                        Studies</a>
-                    <a href="#"
-                        style="display:block;font-size:.85rem;color:var(--tx3);text-decoration:none;">Community</a>
-                </div>
-
-                <div class="col-6 col-md-2">
-                    <h5 style="font-size:.95rem;margin-bottom:12px;color:var(--tx);">Company</h5>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">About</a>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Careers</a>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Press</a>
-                    <a href="#"
-                        style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Privacy</a>
-                    <a href="#" style="display:block;font-size:.85rem;color:var(--tx3);text-decoration:none;">Terms</a>
                 </div>
 
             </div>
-
-            <!-- BOTTOM -->
-            <div
-                style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:15px;padding-top:20px;border-top:1px solid var(--bd);">
-
-                <p style="font-size:.8rem;color:var(--tx3);margin:0;line-height:1.5;">
-                    © 2025 NexusAI, Inc. All rights reserved.
-                    <br>
-                    Design by
-                    <a href="https://bestwpware.com/" target="_blank"
-                        style="color:#6d5efc;font-weight:600;text-decoration:none;">Bestwpware</a>
-                    & distributed by
-                    <a href="https://themewagon.com" target="_blank"
-                        style="color:#6d5efc;font-weight:600;text-decoration:none;">ThemeWagon</a>
-                </p>
-
-                <!-- SOCIAL -->
-                <div style="display:flex;gap:10px;">
-                    <a href="#"
-                        style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-                    <a href="#"
-                        style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                    <a href="#"
-                        style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </a>
-                    <a href="#"
-                        style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
-                        <i class="fa-brands fa-discord"></i>
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-    </footer>
+        </footer>
     </div>
 
     <!-- /dashboard -->
