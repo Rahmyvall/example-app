@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusAI - Automate Everything with AI Agents</title>
+    <title>Kelola Keuangan Cerdas dengan AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -88,46 +88,66 @@
                 <!-- HERO TEXT -->
                 <div class="text-center">
 
-                    <span class="hbadge">
-                        <span class="bdot"></span>
-                        Platform Intelijen Keuangan Berbasis AI
+                    <span class="badge rounded-pill text-bg-light px-3 py-2">
+                        🚀 Platform Intelijen Keuangan Berbasis AI
                     </span>
 
-                    <h1 class="h1 mt-3">
-                        Ambil Keputusan Keuangan Lebih Cerdas<br>
-                        dengan <span class="gt">Kecerdasan AI</span>
+                    <h1 class="display-4 fw-bold mt-4">
+                        Kelola Keuangan Bisnis
+                        <span class="text-primary">Lebih Cerdas</span>
                     </h1>
 
-                    <p style="
-        max-width:620px;
-        margin:20px auto 35px;
-        font-size:clamp(.95rem,1.8vw,1.2rem);
-        color:var(--tx2);
-        line-height:1.6;
-    ">
-                        Otomatiskan pengelolaan anggaran, pantau arus kas secara real-time,
-                        deteksi anomali transaksi, dan hasilkan laporan keuangan yang lebih akurat
-                        melalui satu dashboard cerdas berbasis AI.
+                    <p class="lead text-secondary mx-auto mt-3" style="max-width:700px;">
+                        Pantau arus kas secara real-time, otomatisasi laporan keuangan,
+                        analisis performa bisnis, dan dapatkan insight berbasis AI
+                        untuk mendukung pertumbuhan perusahaan Anda.
                     </p>
 
-                    <!-- TRUST INDICATORS -->
-                    <div class="mt-4 text-muted" style="font-size:.9rem;">
-                        Dipercaya oleh perusahaan, UMKM, dan tim keuangan • Aman • Real-time • Didukung AI
+                    <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+                        <a href="#" class="btn btn-primary btn-lg px-4">
+                            Mulai Gratis
+                        </a>
+
+                        <a href="#" class="btn btn-outline-secondary btn-lg px-4">
+                            Lihat Demo
+                        </a>
+                    </div>
+
+                    <div class="row justify-content-center text-center mt-5 g-4">
+
+                        <div class="col-6 col-md-3">
+                            <h3 class="fw-bold mb-1">10K+</h3>
+                            <small class="text-muted">Transaksi Diproses</small>
+                        </div>
+
+                        <div class="col-6 col-md-3">
+                            <h3 class="fw-bold mb-1">99.9%</h3>
+                            <small class="text-muted">Uptime Sistem</small>
+                        </div>
+
+                        <div class="col-6 col-md-3">
+                            <h3 class="fw-bold mb-1">24/7</h3>
+                            <small class="text-muted">Monitoring AI</small>
+                        </div>
+
                     </div>
 
                 </div>
 
-                <!-- DASHBOARD IMAGE REPLACEMENT -->
                 <div class="row justify-content-center mt-5">
 
-                    <div class="col-lg-10 text-center">
+                    <div class="col-lg-10">
 
-                        <img src="{{asset('frontend/img/logo.png')}}" alt="AI Finance Dashboard" class="img-fluid"
-                            style="
-                        border-radius:18px;
-                        box-shadow:0 25px 70px rgba(0,0,0,.35);
-                        transform:translateY(10px);
-                    ">
+                        <div class="card shadow border-0">
+
+                            <div class="card-body p-2">
+
+                                <img src="{{ asset('frontend/img/logo.png') }}" alt="Dashboard Keuangan AI"
+                                    class="img-fluid rounded">
+
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -396,124 +416,132 @@
 
             </div>
         </section>
-        <footer id="foot" style="padding:80px 0 30px;border-top:1px solid var(--bd);">
+        <footer id="foot" style="padding:100px 0 40px;border-top:1px solid var(--bd);">
             <div class="container">
 
-                <!-- TOP -->
-                <div class="row g-5 mb-5">
+                <div class="row g-5">
 
                     <!-- BRAND -->
-                    <div class="col-lg-4">
-                        <a href="#"
-                            style="display:flex;align-items:center;gap:10px;margin-bottom:15px;font-size:1.2rem;font-weight:700;color:var(--tx);text-decoration:none;">
-                            <div
-                                style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid var(--bd);">
-                                <i class="fa-solid fa-layer-group"></i>
+                    <div class="col-lg-5">
+
+                        <a href="#" class="d-flex align-items-center gap-3 text-decoration-none mb-3">
+
+                            <div class="rounded-3 border d-flex align-items-center justify-content-center"
+                                style="width:44px;height:44px;">
+                                <i class="fa-solid fa-chart-line"></i>
                             </div>
-                            NexusAI
+
+                            <div>
+                                <h5 class="mb-0 fw-bold">Kelola Keuangan Cerdas dengan AI</h5>
+                                <small class="text-muted">
+                                    AI Financial Intelligence Platform
+                                </small>
+                            </div>
+
                         </a>
 
-                        <p style="font-size:.9rem;color:var(--tx3);line-height:1.7;max-width:320px;margin:0;">
-                            The most powerful AI automation platform for modern teams.
+                        <p class="text-secondary mb-4" style="max-width:420px;">
+                            Membantu bisnis mengambil keputusan keuangan yang lebih cepat,
+                            akurat, dan berbasis data melalui teknologi kecerdasan buatan.
                         </p>
 
-                        <!-- SUBSCRIBE -->
-                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:15px;">
-                            <input type="email" placeholder="your@email.com"
-                                style="flex:1;min-width:180px;padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:transparent;color:var(--tx);outline:none;">
-                            <button
-                                style="padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;color:#fff;background:linear-gradient(135deg,#6d5efc,#4fd1c5);">
-                                Subscribe
-                            </button>
+                        <div class="d-flex gap-3 flex-wrap">
+
+                            <span class="badge text-bg-dark px-3 py-2">
+                                🔒 Keamanan Data
+                            </span>
+
+                            <span class="badge text-bg-dark px-3 py-2">
+                                ⚡ Real-time Analytics
+                            </span>
+
+                            <span class="badge text-bg-dark px-3 py-2">
+                                🤖 AI Insights
+                            </span>
+
                         </div>
+
                     </div>
 
-                    <!-- LINKS -->
+                    <!-- MENU -->
                     <div class="col-6 col-md-2">
-                        <h5 style="font-size:.95rem;margin-bottom:12px;color:var(--tx);">Product</h5>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Features</a>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Integrations</a>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Pricing</a>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Changelog</a>
-                        <a href="#"
-                            style="display:block;font-size:.85rem;color:var(--tx3);text-decoration:none;">Status</a>
-                    </div>
 
-                    <div class="col-6 col-md-2">
-                        <h5 style="font-size:.95rem;margin-bottom:12px;color:var(--tx);">Resources</h5>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Documentation</a>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">API
-                            Reference</a>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Blog</a>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Case
-                            Studies</a>
-                        <a href="#"
-                            style="display:block;font-size:.85rem;color:var(--tx3);text-decoration:none;">Community</a>
+                        <h6 class="fw-semibold mb-3">Produk</h6>
+
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-secondary">Dashboard</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-secondary">Analitik</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-secondary">Laporan AI</a></li>
+                            <li><a href="#" class="text-decoration-none text-secondary">Integrasi</a></li>
+                        </ul>
+
                     </div>
 
                     <div class="col-6 col-md-2">
-                        <h5 style="font-size:.95rem;margin-bottom:12px;color:var(--tx);">Company</h5>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">About</a>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Careers</a>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Press</a>
-                        <a href="#"
-                            style="display:block;margin-bottom:8px;font-size:.85rem;color:var(--tx3);text-decoration:none;">Privacy</a>
-                        <a href="#"
-                            style="display:block;font-size:.85rem;color:var(--tx3);text-decoration:none;">Terms</a>
+
+                        <h6 class="fw-semibold mb-3">Perusahaan</h6>
+
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-secondary">Tentang Kami</a>
+                            </li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-secondary">Karier</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-secondary">Blog</a></li>
+                            <li><a href="#" class="text-decoration-none text-secondary">Kontak</a></li>
+                        </ul>
+
+                    </div>
+
+                    <div class="col-6 col-md-3">
+
+                        <h6 class="fw-semibold mb-3">Legal</h6>
+
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-secondary">Kebijakan
+                                    Privasi</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-secondary">Syarat &
+                                    Ketentuan</a></li>
+                            <li><a href="#" class="text-decoration-none text-secondary">Keamanan Data</a></li>
+                        </ul>
+
                     </div>
 
                 </div>
 
                 <!-- BOTTOM -->
-                <div
-                    style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:15px;padding-top:20px;border-top:1px solid var(--bd);">
 
-                    <p style="font-size:.8rem;color:var(--tx3);margin:0;line-height:1.5;">
-                        © 2025 NexusAI, Inc. All rights reserved.
-                        <br>
-                        Design by
-                        <a href="https://bestwpware.com/" target="_blank"
-                            style="color:#6d5efc;font-weight:600;text-decoration:none;">Bestwpware</a>
-                        & distributed by
-                        <a href="https://themewagon.com" target="_blank"
-                            style="color:#6d5efc;font-weight:600;text-decoration:none;">ThemeWagon</a>
+                <hr class="my-5">
+
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+
+                    <p class="text-secondary mb-0">
+                        © 2026 Kelola Keuangan Cerdas dengan AI. All rights reserved.
                     </p>
 
-                    <!-- SOCIAL -->
-                    <div style="display:flex;gap:10px;">
-                        <a href="#"
-                            style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
+                    <div class="d-flex gap-3">
+
+                        <a href="#" class="text-secondary">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+
+                        <a href="#" class="text-secondary">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+
+                        <a href="#" class="text-secondary">
                             <i class="fa-brands fa-x-twitter"></i>
                         </a>
-                        <a href="#"
-                            style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
-                            <i class="fa-brands fa-github"></i>
+
+                        <a href="#" class="text-secondary">
+                            <i class="fa-brands fa-youtube"></i>
                         </a>
-                        <a href="#"
-                            style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
-                            <i class="fa-brands fa-linkedin-in"></i>
-                        </a>
-                        <a href="#"
-                            style="width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--bd);color:var(--tx3);text-decoration:none;">
-                            <i class="fa-brands fa-discord"></i>
-                        </a>
+
                     </div>
 
                 </div>
 
             </div>
         </footer>
+
     </div>
 
     <!-- /dashboard -->
