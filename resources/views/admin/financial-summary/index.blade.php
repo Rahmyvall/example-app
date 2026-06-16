@@ -69,7 +69,7 @@
                 <div class="card-body">
 
                     <small class="text-muted">
-                        January
+                        Amount
                     </small>
 
                     <h5 class="fw-bold">
@@ -89,7 +89,7 @@
                 <div class="card-body">
 
                     <small class="text-muted">
-                        February
+                        Amount
                     </small>
 
                     <h5 class="fw-bold">
@@ -109,7 +109,7 @@
                 <div class="card-body">
 
                     <small class="text-muted">
-                        March
+                        Amount
                     </small>
 
                     <h5 class="fw-bold">
@@ -182,10 +182,10 @@
                     <tr>
 
                         <th>Category</th>
-                        <th class="text-end">January</th>
-                        <th class="text-end">February</th>
-                        <th class="text-end">March</th>
-                        <th class="text-end">Total</th>
+                        <th class="text-end">Amount</th>
+                        <th class="text-end">Amount</th>
+                        <th class="text-end">Amount</th>
+                        <th class="text-end">Net Income</th>
                         <th width="150">Action</th>
 
                     </tr>
@@ -340,19 +340,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <label>January</label>
+                            <label>Amount</label>
                             <input type="number" name="amount_2022_01" class="form-control"
                                 value="{{ $item->amount_2022_01 }}">
                         </div>
 
                         <div class="mb-3">
-                            <label>February</label>
+                            <label>Amount</label>
                             <input type="number" name="amount_2022_02" class="form-control"
                                 value="{{ $item->amount_2022_02 }}">
                         </div>
 
                         <div class="mb-3">
-                            <label>March</label>
+                            <label>Amount</label>
                             <input type="number" name="amount_2022_03" class="form-control"
                                 value="{{ $item->amount_2022_03 }}">
                         </div>
@@ -411,7 +411,7 @@
 
                     <div class="mb-3">
 
-                        <label>January</label>
+                        <label>Amount</label>
 
                         <input type="number" name="amount_2022_01" class="form-control" value="0">
 
@@ -419,7 +419,7 @@
 
                     <div class="mb-3">
 
-                        <label>February</label>
+                        <label>Amount</label>
 
                         <input type="number" name="amount_2022_02" class="form-control" value="0">
 
@@ -427,7 +427,7 @@
 
                     <div class="mb-3">
 
-                        <label>March</label>
+                        <label>Amount</label>
 
                         <input type="number" name="amount_2022_03" class="form-control" value="0">
 
@@ -479,9 +479,9 @@ document.addEventListener('DOMContentLoaded', function() {
         type: 'bar',
         data: {
             labels: [
-                'January',
-                'February',
-                'March'
+                'Amount',
+                'Amount',
+                'Amount'
             ],
             datasets: [{
                 label: 'Financial Summary',

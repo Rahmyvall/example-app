@@ -6,7 +6,7 @@
     <title>Login | Finance Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="{{ asset('backend/Admin/dist/assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('backend/Admin/dist/assets/images/logo.png') }}">
     <link href="{{ asset('backend/Admin/dist/assets/css/style.min.css') }}" rel="stylesheet">
 
     <style>
