@@ -1,3 +1,4 @@
+use Illuminate\Support\Facades\Auth;
 @include('layouts.header')
 
 <body>
