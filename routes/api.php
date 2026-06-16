@@ -5,12 +5,14 @@ use App\Http\Controllers\Api\ChartOfAccountApiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TransactionApiController;
 use App\Http\Controllers\Api\FinancialSummaryController;
+use App\Http\Controllers\Api\MonthlyReportController;
 use App\Http\Controllers\Api\UserApiController;
 
 Route::prefix('v1')->group(function () {
 
     Route::apiResource('users', UserApiController::class);
     Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('monthly-reports', MonthlyReportController::class);
 });
 Route::prefix('coa')->group(function () {
     Route::get('/', [ChartOfAccountApiController::class, 'index']);

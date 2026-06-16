@@ -7,32 +7,26 @@ use App\Models\ChartOfAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-// EXPORT (FIXED)
-use Barryvdh\DomPDF\Facade\Pdf;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\TransactionExport;
-
-
 class TransactionController extends Controller
 {
     /* =========================
        INDEX
     ========================= */
-    public function index()
-    {
-        $transactions = Transaction::with(['chartOfAccount', 'user'])
-            ->latest()
-            ->paginate(10);
+   public function index()
+{
+    $transactions = Transaction::with(['chartOfAccount', 'user'])
+        ->orderBy('date', 'desc')
+        ->paginate(10);
 
-        return view('admin.transactions.index', compact('transactions'));
-    }
+    return view('admin.transactions.index', compact('transactions'));
+}
 
     /* =========================
        CREATE
     ========================= */
     public function create()
     {
-        $coas = ChartOfAccount::all();
+        $coas = ChartOfAccount::orderBy('code', 'asc')->get();
 
         return view('admin.transactions.create', compact('coas'));
     }
@@ -41,28 +35,38 @@ class TransactionController extends Controller
        STORE
     ========================= */
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'date' => 'required|date',
-            'coa_id' => 'required|exists:chart_of_accounts,id',
-            'description' => 'nullable|string|max:255',
-            'debit' => 'required|numeric|min:0',
-            'credit' => 'required|numeric|min:0',
-        ]);
+{
+    $request->validate([
+        'date'        => 'required|date',
+        'coa_id'      => 'required|exists:chart_of_accounts,id',
+        'description' => 'nullable|string',
+        'debit'       => 'nullable|numeric|min:0',
+        'credit'      => 'nullable|numeric|min:0',
+    ]);
 
-        Transaction::create([
-            'date' => $validated['date'],
-            'coa_id' => $validated['coa_id'],
-            'description' => $validated['description'] ?? null,
-            'debit' => $validated['debit'],
-            'credit' => $validated['credit'],
-            'user_id' => auth()->id(),
-        ]);
+    $debit  = (float) $request->debit;
+    $credit = (float) $request->credit;
 
-        return redirect()
-            ->route('admin.transactions.index')
-            ->with('success', 'Transaction berhasil ditambahkan');
+    if ($debit > 0 && $credit > 0) {
+        return back()->withErrors(['debit' => 'Hanya boleh salah satu: debit atau credit'])->withInput();
     }
+
+    if ($debit == 0 && $credit == 0) {
+        return back()->withErrors(['debit' => 'Debit atau credit wajib diisi'])->withInput();
+    }
+
+    Transaction::create([
+        'date'        => $request->date,
+        'coa_id'      => $request->coa_id,
+        'description' => $request->description,
+        'debit'       => $debit,
+        'credit'      => $credit,
+        'user_id'     => auth()->id(),
+    ]);
+
+    return redirect()->route('admin.transactions.index')
+        ->with('success', 'Transaksi berhasil disimpan');
+}
 
     /* =========================
        SHOW
@@ -79,7 +83,7 @@ class TransactionController extends Controller
     ========================= */
     public function edit(Transaction $transaction)
     {
-        $coas = ChartOfAccount::all();
+        $coas = ChartOfAccount::orderBy('code', 'asc')->get();
 
         return view('admin.transactions.edit', compact('transaction', 'coas'));
     }
@@ -87,22 +91,34 @@ class TransactionController extends Controller
     /* =========================
        UPDATE
     ========================= */
-    public function update(Request $request, Transaction $transaction)
-    {
-        $validated = $request->validate([
-            'date' => 'required|date',
-            'coa_id' => 'required|exists:chart_of_accounts,id',
-            'description' => 'nullable|string|max:255',
-            'debit' => 'required|numeric|min:0',
-            'credit' => 'required|numeric|min:0',
-        ]);
+  public function update(Request $request, Transaction $transaction)
+{
+    $request->validate([
+        'date'        => 'required|date',
+        'coa_id'      => 'required|exists:chart_of_accounts,id',
+        'description' => 'nullable|string',
+        'debit'       => 'nullable|numeric|min:0',
+        'credit'      => 'nullable|numeric|min:0',
+    ]);
 
-        $transaction->update($validated);
+    $debit  = (float) $request->debit;
+    $credit = (float) $request->credit;
 
-        return redirect()
-            ->route('admin.transactions.index')
-            ->with('success', 'Transaction berhasil diupdate');
+    if ($debit > 0 && $credit > 0) {
+        return back()->withErrors(['debit' => 'Hanya boleh salah satu'])->withInput();
     }
+
+    $transaction->update([
+        'date'        => $request->date,
+        'coa_id'      => $request->coa_id,
+        'description' => $request->description,
+        'debit'       => $debit,
+        'credit'      => $credit,
+    ]);
+
+    return redirect()->route('admin.transactions.index')
+        ->with('success', 'Transaksi berhasil diupdate');
+}
 
     /* =========================
        DELETE
@@ -113,85 +129,43 @@ class TransactionController extends Controller
 
         return redirect()
             ->route('admin.transactions.index')
-            ->with('success', 'Transaction berhasil dihapus');
+            ->with('success', 'Transaksi berhasil dihapus');
     }
 
-   /* =========================
-   REPORT (MONTHLY + P&L)
-========================= */
-public function report(Request $request)
-{
-    $month = $request->input('month', now()->month);
-    $year  = $request->input('year', now()->year);
+    /* =========================
+       REPORT
+    ========================= */
+    public function report(Request $request)
+    {
+        $month = $request->month ?? now()->month;
+        $year  = $request->year ?? now()->year;
 
-    // Base query (dipakai ulang biar lebih efisien)
-    $baseQuery = Transaction::with('chartOfAccount')
-        ->whereMonth('date', $month)
-        ->whereYear('date', $year);
+        $transactions = Transaction::with('chartOfAccount')
+            ->whereMonth('date', $month)
+            ->whereYear('date', $year)
+            ->orderBy('date', 'desc')
+            ->get();
 
-    $transactions = (clone $baseQuery)
-        ->orderBy('date', 'desc')
-        ->get();
+        $totalDebit = $transactions->sum('debit');
+        $totalCredit = $transactions->sum('credit');
 
-    /*
-    |--------------------------------------------------------------------------
-    | INCOME
-    |--------------------------------------------------------------------------
-    | Ambil semua transaksi dengan COA type = Income
-    */
-    $income = (clone $baseQuery)
-        ->whereHas('chartOfAccount', function ($q) {
-            $q->where('type', 'Income');
-        })
-        ->sum('credit');
+        $monthlySummary = Transaction::select(
+                DB::raw('MONTH(date) as month'),
+                DB::raw('SUM(debit) as total_debit'),
+                DB::raw('SUM(credit) as total_credit')
+            )
+            ->whereYear('date', $year)
+            ->groupBy(DB::raw('MONTH(date)'))
+            ->orderBy('month')
+            ->get();
 
-    /*
-    |--------------------------------------------------------------------------
-    | EXPENSE
-    |--------------------------------------------------------------------------
-    | Ambil semua transaksi dengan COA type = Expense
-    */
-    $expense = (clone $baseQuery)
-        ->whereHas('chartOfAccount', function ($q) {
-            $q->where('type', 'Expense');
-        })
-        ->sum('debit');
-
-    /*
-    |--------------------------------------------------------------------------
-    | PROFIT / LOSS
-    |--------------------------------------------------------------------------
-    */
-    $profit = $income - $expense;
-
-    /*
-    |--------------------------------------------------------------------------
-    | MONTHLY SUMMARY (opsional tambahan)
-    |--------------------------------------------------------------------------
-    | Bisa dipakai untuk grafik atau summary bulanan
-    */
-    $monthlySummary = Transaction::select(
-            DB::raw('MONTH(date) as month'),
-            DB::raw('SUM(credit) as total_income'),
-            DB::raw('SUM(debit) as total_expense')
-        )
-        ->whereYear('date', $year)
-        ->groupBy(DB::raw('MONTH(date)'))
-        ->orderBy('month')
-        ->get()
-        ->map(function ($item) {
-            $item->profit = $item->total_income - $item->total_expense;
-            return $item;
-        });
-
-    return view('admin.transactions.report', compact(
-        'transactions',
-        'month',
-        'year',
-        'income',
-        'expense',
-        'profit',
-        'monthlySummary'
-    ));
-}
+        return view('admin.transactions.report', compact(
+            'transactions',
+            'month',
+            'year',
+            'totalDebit',
+            'totalCredit',
+            'monthlySummary'
+        ));
+    }
 }

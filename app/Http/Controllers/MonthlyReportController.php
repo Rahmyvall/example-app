@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\MonthlyReport;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\MonthlyReportExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class MonthlyReportController extends Controller
 {
@@ -154,5 +158,39 @@ class MonthlyReportController extends Controller
         ]);
 
         return back()->with('success', 'Report berhasil diregenerate');
+    }
+
+   public function print()
+{
+    $reports = MonthlyReport::orderBy('year', 'desc')
+        ->orderBy('month', 'desc')
+        ->get();
+
+    return view('admin.monthly-report.print', compact('reports'));
+}
+
+    public function pdf(MonthlyReport $monthlyReport)
+    {
+        $report = $monthlyReport;
+
+        $transactions = Transaction::with('chartOfAccount')
+            ->whereMonth('date', $report->month)
+            ->whereYear('date', $report->year)
+            ->get();
+
+        $pdf = Pdf::loadView('admin.monthly-report.pdf', [
+            'report' => $report,
+            'transactions' => $transactions,
+        ])->setPaper('A4', 'portrait');
+
+        return $pdf->download("monthly-report-{$report->month}-{$report->year}.pdf");
+    }
+
+    public function excel(MonthlyReport $monthlyReport)
+    {
+        return Excel::download(
+            new MonthlyReportExport($monthlyReport),
+            "monthly-report-{$monthlyReport->month}-{$monthlyReport->year}.xlsx"
+        );
     }
 }

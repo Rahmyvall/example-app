@@ -1,261 +1,521 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        <!-- =========================
-             HEADER
-        ========================= -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h4 class="mb-0">Financial Summary</h4>
-                <small class="text-muted">Manage your monthly financial data</small>
-            </div>
+    @php
+    $grandJan = $reports->sum('amount_2022_01');
+    $grandFeb = $reports->sum('amount_2022_02');
+    $grandMar = $reports->sum('amount_2022_03');
 
-            <button class="btn btn-primary btn-sm d-flex align-items-center gap-1" data-bs-toggle="modal"
-                data-bs-target="#createModal">
+    $grandTotal = $grandJan + $grandFeb + $grandMar;
+    @endphp
+
+    {{-- HEADER --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h4 class="fw-bold mb-0">
+                Financial Profit / Loss
+            </h4>
+            <small class="text-muted">
+                Manage Monthly Financial Report
+            </small>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a href="{{ route('admin.financial-summary.export.pdf') }}" class="btn btn-danger">
+
+                <i class="bx bxs-file-pdf"></i>
+                PDF
+
+            </a>
+
+            <a href="{{ route('admin.financial-summary.export.excel') }}" class="btn btn-success">
+
+                <i class="bx bx-spreadsheet"></i>
+                Excel
+
+            </a>
+
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+
                 <i class="bx bx-plus"></i>
                 Add Data
+
             </button>
-        </div>
 
-        @if (session('success'))
-            <div class="alert alert-success py-2">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <!-- =========================
-             CHART (BALANCED SIZE)
-        ========================= -->
-        <div class="card border-0 shadow-sm mb-3">
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="mb-0 text-muted">Monthly Overview</h6>
-                </div>
-
-                <div style="height: 200px;">
-                    <canvas id="financialChart"></canvas>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- =========================
-             TABLE
-        ========================= -->
-        <div class="card border-0 shadow-sm">
-            <div class="card-body table-responsive">
-
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Category</th>
-                            <th>Jan</th>
-                            <th>Feb</th>
-                            <th>Mar</th>
-                            <th width="120">Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach ($reports as $item)
-                            <tr>
-                                <td class="fw-semibold">{{ $item->category }}</td>
-
-                                <td>Rp {{ number_format($item->amount_2022_01) }}</td>
-                                <td>Rp {{ number_format($item->amount_2022_02) }}</td>
-                                <td>Rp {{ number_format($item->amount_2022_03) }}</td>
-
-                                <td class="d-flex gap-1">
-
-                                    <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editModal{{ $item->id }}">
-                                        <i class="bx bx-edit"></i>
-                                    </button>
-
-                                    <form action="{{ route('admin.financial-summary.destroy', $item->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('Delete this data?')">
-                                            <i class="bx bx-trash"></i>
-                                        </button>
-                                    </form>
-
-                                </td>
-                            </tr>
-
-                            <!-- =========================
-                                 EDIT MODAL
-                            ========================= -->
-                            <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content border-0 shadow">
-
-                                        <form action="{{ route('admin.financial-summary.update', $item->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('PUT')
-
-                                            <div class="modal-header bg-warning">
-                                                <h5 class="modal-title text-dark">Edit Data</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-
-                                            <div class="modal-body p-4">
-
-                                                <label class="small text-muted">Category</label>
-                                                <input type="text" name="category" class="form-control mb-3"
-                                                    value="{{ $item->category }}">
-
-                                                <div class="row g-2">
-
-                                                    <div class="col-6">
-                                                        <label class="small text-muted">Jan</label>
-                                                        <input type="number" name="amount_2022_01" class="form-control"
-                                                            value="{{ $item->amount_2022_01 }}">
-                                                    </div>
-
-                                                    <div class="col-6">
-                                                        <label class="small text-muted">Feb</label>
-                                                        <input type="number" name="amount_2022_02" class="form-control"
-                                                            value="{{ $item->amount_2022_02 }}">
-                                                    </div>
-
-                                                    <div class="col-12 mt-2">
-                                                        <label class="small text-muted">Mar</label>
-                                                        <input type="number" name="amount_2022_03" class="form-control"
-                                                            value="{{ $item->amount_2022_03 }}">
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                            <div class="modal-footer bg-light">
-                                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                                                    Cancel
-                                                </button>
-                                                <button class="btn btn-warning px-4">
-                                                    Update
-                                                </button>
-                                            </div>
-
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </tbody>
-                </table>
-
-                <div class="mt-3">
-                    {{ $reports->links() }}
-                </div>
-
-            </div>
         </div>
 
     </div>
 
-    <!-- =========================
-         CREATE MODAL (PRO UI)
-    ========================= -->
-    <div class="modal fade" id="createModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow">
+    {{-- ALERT --}}
+    @if(session('success'))
 
-                <form action="{{ route('admin.financial-summary.store') }}" method="POST">
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+
+    @endif
+
+    {{-- SUMMARY CARD --}}
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        January
+                    </small>
+
+                    <h5 class="fw-bold">
+                        Rp {{ number_format($grandJan) }}
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        February
+                    </small>
+
+                    <h5 class="fw-bold">
+                        Rp {{ number_format($grandFeb) }}
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        March
+                    </small>
+
+                    <h5 class="fw-bold">
+                        Rp {{ number_format($grandMar) }}
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm bg-primary text-white">
+
+                <div class="card-body">
+
+                    <small>
+                        Grand Total
+                    </small>
+
+                    <h5 class="fw-bold">
+                        Rp {{ number_format($grandTotal) }}
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- CHART --}}
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-header bg-white">
+
+            <strong>
+                Monthly Overview
+            </strong>
+
+        </div>
+
+        <div class="card-body">
+            <div style="height:200px;">
+                <canvas id="financialChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    {{-- TABLE --}}
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white">
+
+            <strong>
+                Financial Data
+            </strong>
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Category</th>
+                        <th class="text-end">January</th>
+                        <th class="text-end">February</th>
+                        <th class="text-end">March</th>
+                        <th class="text-end">Total</th>
+                        <th width="150">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($reports as $item)
+
+                    @php
+
+                    $total =
+                    $item->amount_2022_01 +
+                    $item->amount_2022_02 +
+                    $item->amount_2022_03;
+
+                    @endphp
+
+                    <tr>
+
+                        <td>
+                            {{ $item->category }}
+                        </td>
+
+                        <td class="text-end">
+                            Rp {{ number_format($item->amount_2022_01) }}
+                        </td>
+
+                        <td class="text-end">
+                            Rp {{ number_format($item->amount_2022_02) }}
+                        </td>
+
+                        <td class="text-end">
+                            Rp {{ number_format($item->amount_2022_03) }}
+                        </td>
+
+                        <td class="text-end fw-bold text-primary">
+                            Rp {{ number_format($total) }}
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex gap-1">
+
+                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#editModal{{ $item->id }}">
+
+                                    <i class="bx bx-edit"></i>
+
+                                </button>
+
+                                <form action="{{ route('admin.financial-summary.destroy',$item->id) }}" method="POST">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Delete data ?')">
+
+                                        <i class="bx bx-trash"></i>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    @empty
+
+                    <tr>
+
+                        <td colspan="6" class="text-center">
+
+                            No Data Found
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+                <tfoot class="table-secondary">
+
+                    <tr>
+
+                        <th>Total</th>
+
+                        <th class="text-end">
+                            Rp {{ number_format($grandJan) }}
+                        </th>
+
+                        <th class="text-end">
+                            Rp {{ number_format($grandFeb) }}
+                        </th>
+
+                        <th class="text-end">
+                            Rp {{ number_format($grandMar) }}
+                        </th>
+
+                        <th class="text-end text-primary">
+                            Rp {{ number_format($grandTotal) }}
+                        </th>
+
+                        <th></th>
+
+                    </tr>
+
+                </tfoot>
+
+            </table>
+
+            <div class="mt-3">
+                {{ $reports->links() }}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{{-- TABLE --}}
+<div class="card border-0 shadow-sm">
+    {{-- EDIT MODAL --}}
+    @foreach($reports as $item)
+    <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <form action="{{ route('admin.financial-summary.update', $item->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
 
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title">Add Data</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
-                    <div class="modal-body p-4">
+                    <div class="modal-body">
 
-                        <label class="small text-muted">Category</label>
-                        <input type="text" name="category" class="form-control mb-3" placeholder="e.g Revenue / Expense">
+                        <div class="mb-3">
+                            <label>Category</label>
+                            <input type="text" name="category" class="form-control" value="{{ $item->category }}"
+                                required>
+                        </div>
 
-                        <div class="row g-2">
+                        <div class="mb-3">
+                            <label>January</label>
+                            <input type="number" name="amount_2022_01" class="form-control"
+                                value="{{ $item->amount_2022_01 }}">
+                        </div>
 
-                            <div class="col-6">
-                                <label class="small text-muted">Jan</label>
-                                <input type="number" name="amount_2022_01" class="form-control">
-                            </div>
+                        <div class="mb-3">
+                            <label>February</label>
+                            <input type="number" name="amount_2022_02" class="form-control"
+                                value="{{ $item->amount_2022_02 }}">
+                        </div>
 
-                            <div class="col-6">
-                                <label class="small text-muted">Feb</label>
-                                <input type="number" name="amount_2022_02" class="form-control">
-                            </div>
-
-                            <div class="col-12 mt-2">
-                                <label class="small text-muted">Mar</label>
-                                <input type="number" name="amount_2022_03" class="form-control">
-                            </div>
-
+                        <div class="mb-3">
+                            <label>March</label>
+                            <input type="number" name="amount_2022_03" class="form-control"
+                                value="{{ $item->amount_2022_03 }}">
                         </div>
 
                     </div>
 
-                    <div class="modal-footer bg-light">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                            Cancel
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
                         </button>
-                        <button class="btn btn-primary px-4">
-                            Save
+
+                        <button type="submit" class="btn btn-primary">
+                            Update
                         </button>
                     </div>
 
                 </form>
 
             </div>
+
         </div>
+
+    </div>
+    @endforeach
+</div>
+
+{{-- CREATE MODAL --}}
+<div class="modal fade" id="createModal">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <form action="{{ route('admin.financial-summary.store') }}" method="POST">
+
+                @csrf
+
+                <div class="modal-header">
+
+                    <h5>Add Data</h5>
+
+                    <button class="btn-close" data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+
+                        <label>Category</label>
+
+                        <input type="text" name="category" class="form-control" required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>January</label>
+
+                        <input type="number" name="amount_2022_01" class="form-control" value="0">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>February</label>
+
+                        <input type="number" name="amount_2022_02" class="form-control" value="0">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>March</label>
+
+                        <input type="number" name="amount_2022_03" class="form-control" value="0">
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                        Close
+
+                    </button>
+
+                    <button class="btn btn-primary">
+
+                        Save
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
 
-    <!-- =========================
-         CHART JS (STABLE SIZE)
-    ========================= -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</div>
 
-    <script>
-        const jan = @json($reports->sum('amount_2022_01'));
-        const feb = @json($reports->sum('amount_2022_02'));
-        const mar = @json($reports->sum('amount_2022_03'));
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        new Chart(document.getElementById('financialChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar'],
-                datasets: [{
-                    data: [jan, feb, mar],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)'
-                    ],
-                    borderRadius: 6
-                }]
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const ctx = document.getElementById('financialChart');
+
+    if (!ctx) {
+        console.error('Canvas financialChart tidak ditemukan');
+        return;
+    }
+
+    const jan = @json($grandJan);
+    const feb = @json($grandFeb);
+    const mar = @json($grandMar);
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [
+                'January',
+                'February',
+                'March'
+            ],
+            datasets: [{
+                label: 'Financial Summary',
+                data: [
+                    jan,
+                    feb,
+                    mar
+                ],
+                backgroundColor: [
+                    '#0d6efd',
+                    '#198754',
+                    '#ffc107'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+
+            plugins: {
+                legend: {
+                    display: true
                 }
             }
-        });
-    </script>
+        }
+    });
+
+});
+</script>
 @endsection

@@ -1,129 +1,145 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        {{-- HEADER --}}
-        <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <div>
-                <h4 class="mb-0">Laporan Transaksi</h4>
-                <small class="text-muted">Ringkasan keuangan dan daftar transaksi</small>
+        <div>
+            <h4 class="mb-0">Laporan Transaksi</h4>
+
+            <small class="text-muted">
+                Periode :
+                <strong>
+                    {{ \Carbon\Carbon::create()->month($month)->translatedFormat('F') }}
+                    {{ $year }}
+                </strong>
+            </small>
+        </div>
+
+        <button onclick="window.print()"
+                class="btn btn-dark btn-sm">
+            Print
+        </button>
+
+    </div>
+
+    {{-- Summary --}}
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Total Debit
+                    </p>
+
+                    <h4 class="text-success mb-0">
+                        Rp {{ number_format($totalDebit ?? 0, 0, ',', '.') }}
+                    </h4>
+
+                </div>
             </div>
+        </div>
 
-            {{-- ACTION BUTTONS --}}
-            <div class="d-flex gap-2">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
 
-                {{-- PRINT --}}
-                <button onclick="window.print()" class="btn btn-dark">
-                    🖨 Print
-                </button>
+                    <p class="text-muted mb-1">
+                        Total Credit
+                    </p>
 
+                    <h4 class="text-danger mb-0">
+                        Rp {{ number_format($totalCredit ?? 0, 0, ',', '.') }}
+                    </h4>
+
+                </div>
             </div>
+        </div>
+
+    </div>
+
+    {{-- Detail --}}
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white d-flex justify-content-between">
+
+            <strong>Detail Transaksi</strong>
+
+            <small class="text-muted">
+                {{ $transactions->count() }} transaksi
+            </small>
 
         </div>
 
-        {{-- SUMMARY CARDS --}}
-        <div class="row g-3 mb-4">
+        <div class="card-body p-0">
 
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="text-muted mb-1">Total Debit</p>
-                            <h4 class="text-success mb-0">
-                                {{ number_format($transactions->sum('debit'), 2) }}
-                            </h4>
-                        </div>
-                        <div class="bg-success bg-opacity-10 p-3 rounded">
-                            <i class="bx bx-down-arrow-alt text-success fs-3"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="table-responsive">
 
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="text-muted mb-1">Total Credit</p>
-                            <h4 class="text-danger mb-0">
-                                {{ number_format($transactions->sum('credit'), 2) }}
-                            </h4>
-                        </div>
-                        <div class="bg-danger bg-opacity-10 p-3 rounded">
-                            <i class="bx bx-up-arrow-alt text-danger fs-3"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <table class="table table-hover align-middle mb-0">
 
-        </div>
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>COA</th>
+                            <th>Deskripsi</th>
+                            <th class="text-end">Debit</th>
+                            <th class="text-end">Credit</th>
+                        </tr>
+                    </thead>
 
-        {{-- TABLE --}}
-        <div class="card border-0 shadow-sm">
+                    <tbody>
 
-            <div class="card-header bg-white">
-                <strong>Detail Transaksi</strong>
-            </div>
+                        @forelse($transactions as $trx)
 
-            <div class="card-body p-0">
-
-                <div class="table-responsive">
-
-                    <table class="table table-hover align-middle mb-0">
-
-                        <thead class="table-light">
                             <tr>
-                                <th>Tanggal</th>
-                                <th>COA</th>
-                                <th>Deskripsi</th>
-                                <th class="text-end">Debit</th>
-                                <th class="text-end">Credit</th>
+
+                                <td>
+                                    {{ \Carbon\Carbon::parse($trx->date)->format('d M Y') }}
+                                </td>
+
+                                <td>
+                                    {{ $trx->chartOfAccount?->name ?? '-' }}
+                                </td>
+
+                                <td>
+                                    {{ $trx->description ?: '-' }}
+                                </td>
+
+                                <td class="text-end text-success fw-semibold">
+                                    @if($trx->debit > 0)
+                                        Rp {{ number_format($trx->debit, 0, ',', '.') }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+
+                                <td class="text-end text-danger fw-semibold">
+                                    @if($trx->credit > 0)
+                                        Rp {{ number_format($trx->credit, 0, ',', '.') }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+
                             </tr>
-                        </thead>
 
-                        <tbody>
+                        @empty
 
-                            @forelse ($transactions as $trx)
-                                <tr>
+                            <tr>
+                                <td colspan="5"
+                                    class="text-center py-4 text-muted">
+                                    Tidak ada data transaksi pada periode ini.
+                                </td>
+                            </tr>
 
-                                    <td>
-                                        <span class="badge bg-secondary">
-                                            {{ \Carbon\Carbon::parse($trx->date)->format('d M Y') }}
-                                        </span>
-                                    </td>
+                        @endforelse
 
-                                    <td>
-                                        <strong>{{ $trx->chartOfAccount->name ?? '-' }}</strong>
-                                    </td>
+                    </tbody>
 
-                                    <td class="text-muted">
-                                        {{ $trx->description ?? '-' }}
-                                    </td>
-
-                                    <td class="text-end text-success fw-semibold">
-                                        {{ number_format($trx->debit, 2) }}
-                                    </td>
-
-                                    <td class="text-end text-danger fw-semibold">
-                                        {{ number_format($trx->credit, 2) }}
-                                    </td>
-
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">
-                                        Tidak ada data transaksi
-                                    </td>
-                                </tr>
-                            @endforelse
-
-                        </tbody>
-
-                    </table>
-
-                </div>
+                </table>
 
             </div>
 
@@ -131,31 +147,85 @@
 
     </div>
 
-    {{-- PRINT STYLE --}}
-    <style>
-        @media print {
+    {{-- Ringkasan Bulanan --}}
+    @if(isset($monthlySummary) && $monthlySummary->count())
 
-            /* sembunyikan UI admin */
-            .btn,
-            nav,
-            footer,
-            .card-header {
-                display: none !important;
-            }
+    <div class="card border-0 shadow-sm mt-4">
 
-            body {
-                background: white !important;
-            }
+        <div class="card-header bg-white">
+            <strong>
+                Ringkasan Bulanan Tahun {{ $year }}
+            </strong>
+        </div>
 
-            .card {
-                border: none !important;
-                box-shadow: none !important;
-            }
+        <div class="card-body p-0">
 
-            table {
-                font-size: 12px;
-            }
+            <div class="table-responsive">
 
-        }
-    </style>
+                <table class="table table-sm mb-0">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Bulan</th>
+                            <th class="text-end">Total Debit</th>
+                            <th class="text-end">Total Credit</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach($monthlySummary as $item)
+
+                            <tr>
+
+                                <td>
+                                    {{ \Carbon\Carbon::create()->month($item->month)->translatedFormat('F') }}
+                                </td>
+
+                                <td class="text-end text-success">
+                                    Rp {{ number_format($item->total_debit, 0, ',', '.') }}
+                                </td>
+
+                                <td class="text-end text-danger">
+                                    Rp {{ number_format($item->total_credit, 0, ',', '.') }}
+                                </td>
+
+                            </tr>
+
+                        @endforeach
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    @endif
+
+</div>
+
+<style>
+@media print {
+
+    .btn,
+    nav,
+    footer,
+    .no-print {
+        display: none !important;
+    }
+
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    table {
+        font-size: 12px;
+    }
+}
+</style>
 @endsection

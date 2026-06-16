@@ -4,41 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\FinancialSummary;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FinancialSummaryExport;
 
 class FinancialSummaryController extends Controller
 {
-    /**
-     * =========================
-     * INDEX
-     * =========================
-     */
     public function index()
     {
-        $reports = FinancialSummary::orderBy('category', 'asc')
-            ->paginate(12);
+        $reports = FinancialSummary::paginate(10);
 
-        return view('admin.financial-summary.index', compact('reports'));
+        $chartData = $reports->map(function ($item) {
+            return [
+                'category' => $item->category,
+                'amount_2022_01' => (int) $item->amount_2022_01,
+                'amount_2022_02' => (int) $item->amount_2022_02,
+                'amount_2022_03' => (int) $item->amount_2022_03,
+            ];
+        });
+
+        return view('admin.financial-summary.index', compact('reports', 'chartData'));
     }
 
-    /**
-     * =========================
-     * STORE
-     * =========================
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'category'        => 'required|string',
-            'amount_2022_01'  => 'nullable|integer',
-            'amount_2022_02'  => 'nullable|integer',
-            'amount_2022_03'  => 'nullable|integer',
+        $validated = $request->validate([
+            'category' => 'required|string|max:255',
+            'amount_2022_01' => 'nullable|numeric',
+            'amount_2022_02' => 'nullable|numeric',
+            'amount_2022_03' => 'nullable|numeric',
         ]);
 
         FinancialSummary::create([
-            'category'        => $request->category,
-            'amount_2022_01'  => $request->amount_2022_01 ?? 0,
-            'amount_2022_02'  => $request->amount_2022_02 ?? 0,
-            'amount_2022_03'  => $request->amount_2022_03 ?? 0,
+            'category' => $validated['category'],
+            'amount_2022_01' => $validated['amount_2022_01'] ?? 0,
+            'amount_2022_02' => $validated['amount_2022_02'] ?? 0,
+            'amount_2022_03' => $validated['amount_2022_03'] ?? 0,
         ]);
 
         return redirect()
@@ -46,11 +47,6 @@ class FinancialSummaryController extends Controller
             ->with('success', 'Data berhasil ditambahkan');
     }
 
-    /**
-     * =========================
-     * SHOW
-     * =========================
-     */
     public function show(FinancialSummary $financialSummary)
     {
         return view('admin.financial-summary.show', [
@@ -58,39 +54,50 @@ class FinancialSummaryController extends Controller
         ]);
     }
 
-    /**
-     * =========================
-     * UPDATE
-     * =========================
-     */
     public function update(Request $request, FinancialSummary $financialSummary)
     {
-        $request->validate([
-            'category'        => 'nullable|string',
-            'amount_2022_01'  => 'nullable|integer',
-            'amount_2022_02'  => 'nullable|integer',
-            'amount_2022_03'  => 'nullable|integer',
+        $validated = $request->validate([
+            'category' => 'required|string|max:255',
+            'amount_2022_01' => 'nullable|numeric',
+            'amount_2022_02' => 'nullable|numeric',
+            'amount_2022_03' => 'nullable|numeric',
         ]);
 
-        $financialSummary->update($request->only([
-            'category',
-            'amount_2022_01',
-            'amount_2022_02',
-            'amount_2022_03',
-        ]));
+        $financialSummary->update([
+            'category' => $validated['category'],
+            'amount_2022_01' => $validated['amount_2022_01'] ?? 0,
+            'amount_2022_02' => $validated['amount_2022_02'] ?? 0,
+            'amount_2022_03' => $validated['amount_2022_03'] ?? 0,
+        ]);
 
-        return back()->with('success', 'Data berhasil diupdate');
+        return redirect()
+            ->route('admin.financial-summary.index')
+            ->with('success', 'Data berhasil diupdate');
     }
 
-    /**
-     * =========================
-     * DELETE
-     * =========================
-     */
     public function destroy(FinancialSummary $financialSummary)
     {
         $financialSummary->delete();
 
-        return back()->with('success', 'Data berhasil dihapus');
+        return redirect()
+            ->route('admin.financial-summary.index')
+            ->with('success', 'Data berhasil dihapus');
+    }
+
+    public function exportPdf()
+    {
+        $reports = FinancialSummary::all();
+
+        $pdf = Pdf::loadView('admin.financial-summary.pdf', compact('reports'));
+
+        return $pdf->download('financial-summary.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(
+            new FinancialSummaryExport(),
+            'financial-summary.xlsx'
+        );
     }
 }

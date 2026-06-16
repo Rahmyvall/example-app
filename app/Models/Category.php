@@ -10,33 +10,40 @@ class Category extends Model
     use HasFactory;
 
     /**
-     * Nama tabel (opsional sebenarnya, Laravel sudah otomatis)
+     * Nama tabel (opsional, Laravel sudah otomatis mengenali 'categories')
      */
     protected $table = 'categories';
 
     /**
-     * Field yang boleh diisi (mass assignment)
+     * Field yang boleh diisi mass assignment
      */
     protected $fillable = [
         'name',
     ];
 
     /**
-     * Cast data
+     * Field yang tidak boleh diisi (alternatif dari fillable)
+     * protected $guarded = [];
      */
-    protected $casts = [
-        'name' => 'string',
-    ];
 
     /**
-     * Relasi ke transactions (jika kategori dipakai untuk transaksi)
+     * Relasi
      */
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
     }
-       public function chartOfAccounts()
+
+    public function chartOfAccounts()
     {
         return $this->hasMany(ChartOfAccount::class);
+    }
+
+    /**
+     * Optional: Scope untuk pencarian
+     */
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('name', 'LIKE', "%{$term}%");
     }
 }
