@@ -40,19 +40,30 @@
                         <span>KeuanganKu</span>
                     </a>
                     <div class="d-flex align-items-center gap-2">
-                        <button class="boc d-flex align-items-center justify-content-center" id="thbtn"
-                            style="width:38px;height:38px;padding:0;border-radius:12px" aria-label="Toggle theme">
-                            <i class="fa-solid fa-sun" id="suni" style="display:none"></i>
-                            <i class="fa-solid fa-moon" id="mooni"></i>
-                        </button>
-                        <button type="button" class="boc px-3 py-2 d-none d-sm-flex align-items-center gap-1"
-                            onclick="window.location='{{ route('login') }}'">
-                            <i class="fa-regular fa-user fa-sm"></i> Log in
-                        </button>
-                        <button class="boc d-lg-none px-2 py-2" id="mbtog" style="border-radius:10px">
-                            <i class="fa-solid fa-bars" id="barIcon"></i>
-                            <i class="fa-solid fa-xmark" id="xIcon" style="display:none"></i>
-                        </button>
+
+                        <div class="d-flex align-items-center gap-2">
+
+                            <!-- Theme Button -->
+                            <button class="boc d-flex align-items-center justify-content-center" id="thbtn"
+                                style="width:38px;height:38px;padding:0;border-radius:12px" aria-label="Toggle theme">
+                                <i class="fa-solid fa-sun" id="suni" style="display:none"></i>
+                                <i class="fa-solid fa-moon" id="mooni"></i>
+                            </button>
+
+                            <!-- LOGIN BUTTON (SELALU TAMPIL) -->
+                            <button type="button" class="boc px-3 py-2 d-none d-sm-flex align-items-center gap-1"
+                                onclick="window.location='{{ route('login') }}'">
+                                <i class="fa-regular fa-user fa-sm"></i>
+                                Log in
+                            </button>
+
+                            <!-- Mobile menu toggle -->
+                            <button class="boc d-lg-none px-2 py-2" id="mbtog" style="border-radius:10px">
+                                <i class="fa-solid fa-bars" id="barIcon"></i>
+                                <i class="fa-solid fa-xmark" id="xIcon" style="display:none"></i>
+                            </button>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -353,7 +364,6 @@
 
                                     <thead style="background:#f8f9fa;">
                                         <tr>
-                                            <th style="font-size:13px;">Date</th>
                                             <th style="font-size:13px;">Account</th>
                                             <th style="font-size:13px;">Description</th>
                                             <th class="text-end" style="font-size:13px;">Debit</th>
@@ -365,10 +375,6 @@
 
                                         @forelse($transactions as $trx)
                                         <tr>
-
-                                            <td style="font-weight:500;">
-                                                {{ $trx->transaction_date }}
-                                            </td>
 
                                             <td>
                                                 <div style="font-weight:600;">

@@ -13,55 +13,51 @@ use App\Http\Controllers\FrontendController;
 
 /*
 |--------------------------------------------------------------------------
-| HOME
+| PUBLIC PAGE (WELCOME)
 |--------------------------------------------------------------------------
 */
 Route::get('/', [FrontendController::class, 'index'])->name('welcome');
-Route::get('/coa/chart/{id}', [FrontendController::class, 'coaChart']);
-Route::get('/transactions/by-coa/{id}', [FrontendController::class, 'transactionsByCoa']);
 
 /*
 |--------------------------------------------------------------------------
-| API
-|--------------------------------------------------------------------------
-*/
-Route::get('/api/categories/{id}', function ($id) {
-    return \App\Models\Category::findOrFail($id);
-})->name('api.categories.show');
-
-/*
-|--------------------------------------------------------------------------
-| GUEST
+| GUEST ONLY (BELUM LOGIN)
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
 
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-    Route::post('/register', [AuthController::class, 'register'])->name('register');
-
 });
 
 /*
 |--------------------------------------------------------------------------
-| AUTH
+| AUTH (SUDAH LOGIN)
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    /*
+    | LOGOUT
+    */
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-});
+    /*
+    | DASHBOARD
+    */
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN
-|--------------------------------------------------------------------------
-*/
-Route::prefix('admin')
+    /*
+    | FRONTEND DATA (BUTUH LOGIN)
+    */
+    Route::get('/coa/chart/{id}', [FrontendController::class, 'coaChart']);
+    Route::get('/transactions/by-coa/{id}', [FrontendController::class, 'transactionsByCoa']);
+
+    /*
+    | ADMIN AREA (HARUS ADMIN)
+    */
+    Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['auth', 'admin'])
+    ->middleware('admin')
     ->group(function () {
 
         /*
@@ -76,16 +72,20 @@ Route::prefix('admin')
         */
         Route::resource('transactions', TransactionController::class);
 
-        Route::get('/transactions-report', [TransactionController::class, 'report'])
+        // ✅ REPORT PAGE (FIX ERROR YANG KAMU ALAMI)
+        Route::get('transactions-report', [TransactionController::class, 'report'])
             ->name('transactions.report');
 
-        Route::get('/transactions-print', [TransactionController::class, 'report'])
+        // optional: halaman print report
+        Route::get('transactions-print', [TransactionController::class, 'report'])
             ->name('transactions.print');
 
-        Route::get('/transactions/pdf', [TransactionController::class, 'exportPdf'])
+        // PDF export
+        Route::get('transactions/pdf', [TransactionController::class, 'exportPdf'])
             ->name('transactions.pdf');
 
-        Route::get('/transactions/excel', [TransactionController::class, 'exportExcel'])
+        // Excel export
+        Route::get('transactions/excel', [TransactionController::class, 'exportExcel'])
             ->name('transactions.excel');
 
         /*
@@ -93,34 +93,24 @@ Route::prefix('admin')
         */
         Route::resource('monthly-report', MonthlyReportController::class);
 
-        // ✅ FIX: pakai prefix lengkap + name grouping aman
-        Route::get('monthly-report/{monthlyReport}/print',
-            [MonthlyReportController::class, 'print']
-        )->name('monthly-report.print');
+        Route::get('monthly-report/{monthlyReport}/print', [MonthlyReportController::class, 'print'])
+            ->name('monthly-report.print');
 
-        Route::get('monthly-report/{monthlyReport}/pdf',
-            [MonthlyReportController::class, 'pdf']
-        )->name('monthly-report.pdf');
+        Route::get('monthly-report/{monthlyReport}/pdf', [MonthlyReportController::class, 'pdf'])
+            ->name('monthly-report.pdf');
 
-        Route::get('monthly-report/{monthlyReport}/excel',
-            [MonthlyReportController::class, 'excel']
-        )->name('monthly-report.excel');
-
+        Route::get('monthly-report/{monthlyReport}/excel', [MonthlyReportController::class, 'excel'])
+            ->name('monthly-report.excel');
 
         /*
         | FINANCIAL SUMMARY
         */
         Route::resource('financial-summary', FinancialSummaryController::class);
-         Route::get(
-            'financial-summary/export/pdf',
-            [FinancialSummaryController::class, 'exportPdf']
-        )->name('financial-summary.export.pdf');
 
-        Route::get(
-            'financial-summary/export/excel',
-            [FinancialSummaryController::class, 'exportExcel']
-        )->name('financial-summary.export.excel');
-        Route::put('/financial-summary/{id}', [FinancialSummaryController::class, 'update'])
-    ->name('admin.financial-summary.update');
+        Route::get('financial-summary/export/pdf', [FinancialSummaryController::class, 'exportPdf'])
+            ->name('financial-summary.export.pdf');
 
+        Route::get('financial-summary/export/excel', [FinancialSummaryController::class, 'exportExcel'])
+            ->name('financial-summary.export.excel');
     });
+});

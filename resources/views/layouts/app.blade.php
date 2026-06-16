@@ -253,8 +253,8 @@
                             <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
                                 data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
 
-                                <img src="{{ asset('backend/Admin/dist/assets/images/users/avatar-4.jpg') }}"
-                                    alt="user" class="rounded-circle" width="36" height="36">
+                                <img src="{{ asset('backend/Admin/dist/assets/images/users/avatar-4.jpg') }}" alt="user"
+                                    class="rounded-circle" width="36" height="36">
 
                                 <div class="d-none d-md-block text-start lh-sm">
                                     <div class="fw-semibold">{{ Auth::user()->name }}</div>
@@ -275,27 +275,29 @@
 
                                 <div class="dropdown-divider"></div>
 
-                                <a href="#"
-                                    class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2">
+                                <a href="#" class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2">
                                     <i class="fe-user"></i> My Account
                                 </a>
 
-                                <a href="#"
-                                    class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2">
+                                <a href="#" class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2">
                                     <i class="fe-settings"></i> Settings
                                 </a>
 
-                                <a href="#"
-                                    class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2">
+                                <a href="#" class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2">
                                     <i class="fe-lock"></i> Lock Screen
                                 </a>
 
                                 <div class="dropdown-divider"></div>
 
-                                <a href="{{ url('/') }}"
-                                    class="dropdown-item text-danger d-flex align-items-center gap-2 rounded-2 py-2">
-                                    <i class="bi bi-house"></i> Logout
-                                </a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+
+                                    <button type="submit"
+                                        class="dropdown-item text-danger d-flex align-items-center gap-2 rounded-2 py-2 border-0 bg-transparent w-100 text-start">
+
+                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                    </button>
+                                </form>
 
                             </div>
                         </li>

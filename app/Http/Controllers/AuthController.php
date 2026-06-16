@@ -12,6 +12,11 @@ class AuthController extends Controller
     // ===== SHOW LOGIN PAGE =====
     public function showLogin()
     {
+        // kalau sudah login, langsung ke dashboard
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
+
         return view('auth.login');
     }
 
@@ -31,6 +36,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
+            // ✅ selalu ke dashboard setelah login
             return redirect()->route('dashboard');
         }
 
@@ -64,12 +70,13 @@ class AuthController extends Controller
 
     // ===== LOGOUT =====
     public function logout(Request $request)
-    {
-        Auth::logout();
+{
+    Auth::logout();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        return redirect()->route('login');
-    }
+    // ✅ langsung ke welcome (homepage)
+    return redirect()->route('welcome');
+}
 }
