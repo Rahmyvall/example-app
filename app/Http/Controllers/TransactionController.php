@@ -9,21 +9,15 @@ use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
-    /* =========================
-       INDEX
-    ========================= */
-   public function index()
-{
-    $transactions = Transaction::with(['chartOfAccount', 'user'])
-        ->orderBy('date', 'desc')
-        ->paginate(10);
+    public function index()
+    {
+        $transactions = Transaction::with(['chartOfAccount', 'user'])
+            ->orderBy('date', 'desc')
+            ->paginate(10);
 
-    return view('admin.transactions.index', compact('transactions'));
-}
+        return view('admin.transactions.index', compact('transactions'));
+    }
 
-    /* =========================
-       CREATE
-    ========================= */
     public function create()
     {
         $coas = ChartOfAccount::orderBy('code', 'asc')->get();
@@ -32,7 +26,7 @@ class TransactionController extends Controller
     }
 
     /* =========================
-       STORE
+       STORE (FIXED)
     ========================= */
     public function store(Request $request)
 {
@@ -44,15 +38,14 @@ class TransactionController extends Controller
         'credit'      => 'nullable|numeric|min:0',
     ]);
 
-    $debit  = (float) $request->debit;
-    $credit = (float) $request->credit;
+    $debit  = (float) ($request->debit ?? 0);
+    $credit = (float) ($request->credit ?? 0);
 
-    if ($debit > 0 && $credit > 0) {
-        return back()->withErrors(['debit' => 'Hanya boleh salah satu: debit atau credit'])->withInput();
-    }
-
+    // ❗ minimal salah satu harus diisi
     if ($debit == 0 && $credit == 0) {
-        return back()->withErrors(['debit' => 'Debit atau credit wajib diisi'])->withInput();
+        return back()->withErrors([
+            'debit' => 'Debit atau credit wajib diisi minimal salah satu'
+        ])->withInput();
     }
 
     Transaction::create([
@@ -68,9 +61,6 @@ class TransactionController extends Controller
         ->with('success', 'Transaksi berhasil disimpan');
 }
 
-    /* =========================
-       SHOW
-    ========================= */
     public function show(Transaction $transaction)
     {
         $transaction->load(['chartOfAccount', 'user']);
@@ -78,9 +68,6 @@ class TransactionController extends Controller
         return view('admin.transactions.show', compact('transaction'));
     }
 
-    /* =========================
-       EDIT
-    ========================= */
     public function edit(Transaction $transaction)
     {
         $coas = ChartOfAccount::orderBy('code', 'asc')->get();
@@ -89,9 +76,9 @@ class TransactionController extends Controller
     }
 
     /* =========================
-       UPDATE
+       UPDATE (FIXED)
     ========================= */
-  public function update(Request $request, Transaction $transaction)
+    public function update(Request $request, Transaction $transaction)
 {
     $request->validate([
         'date'        => 'required|date',
@@ -101,11 +88,13 @@ class TransactionController extends Controller
         'credit'      => 'nullable|numeric|min:0',
     ]);
 
-    $debit  = (float) $request->debit;
-    $credit = (float) $request->credit;
+    $debit  = (float) ($request->debit ?? 0);
+    $credit = (float) ($request->credit ?? 0);
 
-    if ($debit > 0 && $credit > 0) {
-        return back()->withErrors(['debit' => 'Hanya boleh salah satu'])->withInput();
+    if ($debit == 0 && $credit == 0) {
+        return back()->withErrors([
+            'debit' => 'Debit atau credit wajib diisi minimal salah satu'
+        ])->withInput();
     }
 
     $transaction->update([
@@ -120,9 +109,6 @@ class TransactionController extends Controller
         ->with('success', 'Transaksi berhasil diupdate');
 }
 
-    /* =========================
-       DELETE
-    ========================= */
     public function destroy(Transaction $transaction)
     {
         $transaction->delete();
@@ -132,9 +118,6 @@ class TransactionController extends Controller
             ->with('success', 'Transaksi berhasil dihapus');
     }
 
-    /* =========================
-       REPORT
-    ========================= */
     public function report(Request $request)
     {
         $month = $request->month ?? now()->month;

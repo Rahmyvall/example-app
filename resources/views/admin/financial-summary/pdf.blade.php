@@ -36,9 +36,9 @@
 
             <tr>
                 <th>Category</th>
-                <th>January</th>
-                <th>February</th>
-                <th>March</th>
+                <th>Amount</th>
+                <th>Amount</th>
+                <th>Amount</th>
                 <th>Total</th>
             </tr>
 
